@@ -22,7 +22,7 @@ def doc_context(docs: List[Document]):
         lines.append(f"[{tag}] {d.page_content}")
     return "\n\n".join(lines)
 
-def fetch_response(question, chat_history, collection_name):
+def fetch_response(question, history, collection_name):
     embeddings = OpenAIEmbeddings(
         model=EMBED_MODEL,
         api_key=OPENAI_API_KEY,
@@ -32,11 +32,11 @@ def fetch_response(question, chat_history, collection_name):
         collection_name=collection_name,
         embedding_function=embeddings,
     )
-    retriever = vs.as_retriever(search_type="mmr", k=TOP_K, fetch_k=FETCH_K)
+    retr = vs.as_retriever(search_type="mmr", k=TOP_K, fetch_k=FETCH_K)
     try:
-        docs = retriever.invoke(question)
+        docs = retr.invoke(question)
     except AttributeError:
-        docs = retriever.get_relevant_documents(question)
+        docs = retr.get_relevant_documents(question)
 
     context = doc_context(docs)
 
@@ -45,19 +45,18 @@ def fetch_response(question, chat_history, collection_name):
         SystemMessage(content=f"Context documents:\n\n{context}"),
     ]
 
-    for turn in chat_history[-4:]:
-        messages.append(HumanMessage(content=turn["user"]))
-        messages.append(SystemMessage(content=f"Assistant (previous): {turn['assistant']}"))
+    for hist in history[-3:]:
+        messages.append(HumanMessage(content=hist["user"]))
+        messages.append(SystemMessage(content=f"Previous Reply: {hist['assistant']}"))
 
     messages.append(HumanMessage(content=question))
 
-    llm = ChatOpenAI(
+    model = ChatOpenAI(
         model=CHAT_MODEL,
-        temperature=0.2,
         api_key=OPENAI_API_KEY,
         base_url=OPENAI_BASE_URL,
     )
-    resp = llm.invoke(messages)
+    resp = model.invoke(messages)
     return resp.content, docs
 
 st.set_page_config(page_title="Document Chat", layout="wide")
