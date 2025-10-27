@@ -1,3 +1,33 @@
+# Overview:
+This project is a Retrieval-Augmented Generation (RAG) app built with Streamlit and LangChain. It allows users to upload .txt, .md, and .pdf files (up to 200MB each) and ask questions about their content. The system automatically chunks documents, stores them in ChromaDB, and uses OpenAI models to generate context-grounded answers.
+
+## How It Works:
+Upload one or more files in the sidebar.
+The app extracts and splits the text into smaller chunks using RecursiveCharacterTextSplitter.
+Chunks are embedded with OpenAIEmbeddings and stored in ChromaDB.
+When a question is asked, the retriever fetches relevant Vector Store and Chat with OpenAI to generate an answer based on them.
+
+## Tools Used:
+- Streamlit – for the chat interface
+- LangChain – for document processing and RAG pipeline
+- ChromaDB – for vector storage and retrieval
+- OpenAI API – for embeddings and language generation
+- Python Standard Libraries – for file handling
+- GitHub Codespace – for development environment
+
+## Run Instructions:
+Open the provided Codespace environment.
+Install dependencies: pip install -r requirements.txt
+
+# Run the app:
+`OPENAI_API_KEY=<your-api-key> streamlit run rag_chat_app.py`
+
+# Config Changes:
+Added variables in `config.py` for API key, model names, chunk settings, and retrieval parameters.
+
+
+
+
 # INFO 5940 
 Welcome to the INFO 5940 repository. You will complete your work using [**GitHub Codespaces**](#about-github-codespaces) and save your progress in your own GitHub repository. This guide will walk you through setting up the development environment and running the test notebook.  
 
