@@ -59,17 +59,17 @@ def fetch_response(question, history, collection_name):
     resp = model.invoke(messages)
     return resp.content, docs
 
-st.set_page_config(page_title="Document Chat", layout="wide")
-st.title("Document Chat")
+st.set_page_config(page_title="Chat about your document", layout="wide")
+st.title("Chat about your document")
 
 if "history" not in st.session_state:
     st.session_state.history = []
 
 with st.sidebar:
-    st.header("Documents")
-    uploaded = st.file_uploader("Upload .txt/.md/.pdf", accept_multiple_files=True, type=["txt", 'md', "pdf"])
+    st.header("Upload your Documents")
+    uploaded = st.file_uploader("Upload documents here! type - .txt/.md/.pdf", accept_multiple_files=True, type=["txt", 'md', "pdf"])
     if uploaded:
-        with st.spinner("Indexing..."):
+        with st.spinner("Indexing your document..."):
             tmp_paths = []
             for doc in uploaded:
                 suffix = os.path.splitext(doc.name)[1].lower()
@@ -80,7 +80,7 @@ with st.sidebar:
             docs = load(tmp_paths)
             chunks = chunk(docs)
             build(chunks, COLLECTION)
-        st.info("Index Successful.")
+        st.info("Done document indexing.")
 
 for turn in st.session_state.history:
     with st.chat_message("user"):
@@ -88,11 +88,11 @@ for turn in st.session_state.history:
     with st.chat_message("assistant"):
         st.write(turn["assistant"])
 
-if prompt := st.chat_input("Ask about your documents…"):
+if prompt := st.chat_input("Type your question here...."):
     with st.chat_message("user"):
         st.write(prompt)
     with st.chat_message("assistant"):
-        with st.spinner("Thinking…"):
+        with st.spinner("Answering..."):
             answer, docs = fetch_response(prompt, st.session_state.history, COLLECTION)
             st.write(answer)
     st.session_state.history.append({"user": prompt, "assistant": answer})
