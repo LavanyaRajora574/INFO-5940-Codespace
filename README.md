@@ -40,6 +40,9 @@ Install dependencies: pip install -r requirements.txt
 ### Run the app:
 `OPENAI_API_KEY=<your-api-key> streamlit run rag_chat_app.py`
 
+### Open the app:
+Now open http://localhost:8501 in the browser. This will connect with the port 8501 and run the app in the browser.
+
 ## How It Works:
 - Upload one or more .txt/.pdf/.md files in the sidebar.
 - Once uploaded these documents will be processed automatically
