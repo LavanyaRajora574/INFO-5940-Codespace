@@ -39,6 +39,7 @@ Document helper methods are exported from `document_helper.py` containing method
 - Chunks are embedded with `OpenAIEmbeddings` and stored in `ChromaDB`.
 - When a question is asked, the retriever fetches relevant Vector Store and Chat with OpenAI to generate an answer based on them.
 - The responses also consider previous questions and responses to build upon the context of the chat for a more natural conversation.
+
 ## Tools and Libraries Used:
 - GitHub Codespace - development setup
 - Python Standard Libraries - OS, tempfile, typing
