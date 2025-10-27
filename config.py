@@ -7,7 +7,7 @@ load_dotenv()
 EMBED_MODEL = "openai.text-embedding-3-small"
 CHAT_MODEL  = "openai.gpt-5-chat"
 CHUNK_SIZE = 800
-CHUNK_OVERLAP = 70
+CHUNK_OVERLAP = 80
 TOP_K = 5
 FETCH_K = 15
 COLLECTION = "doc-rag"
